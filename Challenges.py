@@ -1,5 +1,5 @@
-
 # Project 506
+
 # Here are some problem-solving challenges that can be tackled using various data structures in Python.
 # Use these exercises to explore the practical application of various data structures in solving a range of problem-solving challenges. 
 # The goal is to implement and utilize different data structures within Python to tackle diverse problem scenarios effectively.
@@ -26,8 +26,43 @@ Output: False
 # Guidelines:
 
 # - Implement a stack data structure using a list.
+class Stack:
+    def __init__(self):
+        self.stack_list = []
+
+    def pop(self):
+        return self.stack_list.pop()
+    
+    def push(self, item):
+        self.stack_list.append(item)
+
+    def length(self):
+        return len(self.stack_list)
+
 # - Ignore spaces and punctuation when checking for a palindrome.
 # - Use Python's built-in string manipulation functions (such as lower(), isalpha(), etc.) as needed for preprocessing the input string.
+def is_palindrome(word):
+    # word pre-processing
+    cleaned_word = ''.join(c for c in word if c.isalpha())
+
+    # add the letters to the stack
+    letter_stack = Stack()
+    for letter in cleaned_word:
+        letter_stack.push(letter)
+    
+    # check if palidrome
+    for letter in cleaned_word:
+        reverse = letter_stack.pop()
+        if letter != reverse:
+            return False
+        
+    return True
+
+# input from the user
+"""
+word = input("Input: ").strip().lower()
+print(f'Output: {is_palindrome(word)}')
+"""
 
 # Test Cases: # Test your function with the following test cases:
 # Input: "level"
@@ -50,10 +85,26 @@ Output: False
 # Create a Python class QueueWithStacks that implements a queue data structure using two stacks. Implement the enqueue() and dequeue() operations for this queue.
 # The enqueue() operation should add an element to the queue, and the dequeue() operation should remove and return the first element added to the queue.
 # Use two stacks (stack_1 and stack_2) to simulate the queue behavior. You can use Python lists to represent the stacks.
+class QueueWithStacks:
+    def __init__(self):
+        self.stack_1 = Stack()
+        self.stack_2 = Stack()
 
+    def enqueue(self, item):
+        self.stack_1.push(item)
+
+    def dequeue(self):
+        while self.stack_1.length():
+            item = self.stack_1.pop()
+            self.stack_2.push(item)
+        
+        if self.stack_2.length():
+            return self.stack_2.pop()
+            
+        
 
 #Example:
-"""
+
 queue = QueueWithStacks()
 queue.enqueue(5)
 queue.enqueue(10)
@@ -61,8 +112,6 @@ queue.enqueue(15)
 
 print(queue.dequeue())  # Output: 5
 print(queue.dequeue())  # Output: 10
-
-"""
 
 #Guidelines:
 
