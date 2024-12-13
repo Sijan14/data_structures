@@ -58,7 +58,7 @@ def is_palindrome(word):
         
     return True
 
-# input from the user
+# Testing the function
 """
 word = input("Input: ").strip().lower()
 print(f'Output: {is_palindrome(word)}')
@@ -104,7 +104,7 @@ class QueueWithStacks:
         
 
 #Example:
-
+"""
 queue = QueueWithStacks()
 queue.enqueue(5)
 queue.enqueue(10)
@@ -112,6 +112,7 @@ queue.enqueue(15)
 
 print(queue.dequeue())  # Output: 5
 print(queue.dequeue())  # Output: 10
+"""
 
 #Guidelines:
 
@@ -142,13 +143,27 @@ Enqueue elements: 'a', 'b', 'c', 'd', 'e'
 # Problem Statement: Word Frequency Counter
 # Create a Python function word_frequency_counter() that takes a text string as input and uses a dictionary to count the frequency of each word in the text.
 # Your function should return a dictionary where the keys are unique words in the text, and the values are the frequencies of those words.
+import re
+
+def word_frequency_counter(text):
+    word_count = dict()
+
+    for word in text.split():
+        # removing puncuation
+        word = re.sub(r'[^\w]', '', word)
+        
+        if word not in word_count.keys():
+            word_count[word] = 1
+        else:
+            word_count[word] = word_count[word] + 1
+    
+    return word_count
 
 #Example
 """
 text = "This is a sample text. This text will be used to count word frequency."
 result = word_frequency_counter(text)
 print(result)
-
 """
 
 #Expected Output
@@ -215,6 +230,23 @@ print(is_balanced_parentheses(string_2))  # Output: False
 # Use a stack to keep track of opening parentheses.
 # Iterate through the string, pushing opening parentheses onto the stack and popping the stack when encountering a closing parenthesis.
 # Check for balance by ensuring that for every closing parenthesis encountered, there exists a corresponding opening parenthesis in the stack.
+
+def is_balanced_parentheses(string):
+    my_stack = Stack()
+
+    for char in string:
+        if char == '(':
+            my_stack.push(char)
+        elif char == ')':
+            my_stack.pop()
+    
+    if my_stack.length():
+        return False
+    return True
+
+string = input("Enter Parentheses: ").strip()
+print(is_balanced_parentheses(string))
+
 
 # Test Cases: Test your function with the following test cases:
 
