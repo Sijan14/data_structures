@@ -243,10 +243,10 @@ def is_balanced_parentheses(string):
     if my_stack.length():
         return False
     return True
-
+"""
 string = input("Enter Parentheses: ").strip()
 print(is_balanced_parentheses(string))
-
+"""
 
 # Test Cases: Test your function with the following test cases:
 
@@ -279,6 +279,49 @@ Expected Output: True
 
 # The left subtree of a node contains only nodes with values less than the node's value.
 # The right subtree of a node contains only nodes with values greater than the node's value.
+class BinarySearchTree:
+    def __init__(self):
+        self.tree = []
+    
+    # searching for the index using BST
+    def search_index(self, item):
+        low = 0
+        high = len(self.tree) - 1
+
+        while (low <= high):
+            mid = (low + high) // 2
+
+            if self.tree[mid] == item:
+                return mid
+            
+            elif self.tree[mid] < item:
+                low = mid + 1
+            
+            else:
+                high = mid - 1
+        
+        return -1
+    
+    # search function that returns true of false
+    def search(self, item):
+        if self.search_index(item) == -1:
+            return False
+        
+        return True
+        
+    # insert function
+    def insert(self, item):
+        
+        self.tree.append(item)
+        self.tree.sort()
+
+    # delete function
+    def delete(self, item):
+        index = self.search_index(item)
+
+        if index != -1:
+            return self.tree.pop(index)
+        return False
 
 # Example
 """
@@ -316,8 +359,55 @@ print(bst.search(15))  # Output: False
 
 # ---------------------------------------------------------------------------------------------------------------------------
 # 6-	Graph Traversal: Implement depth-first search (DFS) and breadth-first search (BFS) algorithms for traversing a graph.
+from queue import Queue
 
+# defining vertex class
+class Vertex:
+    def __init__(self, label):
+        self.label = label
 
+# defining graph class
+class Graph:
+    def __init__(self):
+        self.adjacency_list = {}
+        self.edge_weights = {}
+        
+    def add_vertex(self, new_vertex):
+        self.adjacency_list[new_vertex] = []
+        
+    def add_directed_edge(self, from_vertex, to_vertex, weight = 1.0):
+        self.edge_weights[(from_vertex, to_vertex)] = weight
+        self.adjacency_list[from_vertex].append(to_vertex)
+        
+    def add_undirected_edge(self, vertex_a, vertex_b, weight = 1.0):
+        self.add_directed_edge(vertex_a, vertex_b, weight)
+        self.add_directed_edge(vertex_b, vertex_a, weight)
+
+# defining breadth first search function
+def breadth_first_search(graph, start_vertex, distances=dict()):
+    
+    # defining the key container variables
+    discovered_set = set()
+    frontier_queue = Queue()
+    visited_list = []
+
+    distances[start_vertex] = 0
+
+    frontier_queue.put(start_vertex)
+    discovered_set.add(start_vertex)
+
+    while (frontier_queue.empty() != True):
+        current_vertex = frontier_queue.get()
+        visited_list.append(current_vertex)
+        for adjacent_vertex in graph.adjacency_list[current_vertex]:
+            if adjacent_vertex not in discovered_set:
+                frontier_queue.put(adjacent_vertex)
+                discovered_set.add(adjacent_vertex)
+
+                distances[adjacent_vertex] = distances[current_vertex] + 1
+    return visited_list
+
+# defining depth first search function
 
 # ---------------------------------------------------------------------------------------------------------------------------
 # 7- Use a set to find duplicates in an array or list efficiently.
